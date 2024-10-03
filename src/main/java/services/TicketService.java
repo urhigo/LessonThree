@@ -52,4 +52,9 @@ public class TicketService {
         return Stream.of(ticket1, ticket2, ticket3, ticket4, ticket5,
                 ticket6, ticket7, ticket8, ticket9, ticket10).toList();
     }
+
+    public void getInformationAboutTicketById(short id, List<Ticket> listTickets){
+        listTickets.stream().filter(ticket -> ticket.getId() == id).findFirst()
+                .ifPresentOrElse(System.out::println, () -> System.out.println("We don't have ticket with this id: " + id));
+    }
 }
