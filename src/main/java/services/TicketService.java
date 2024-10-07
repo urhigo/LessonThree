@@ -57,4 +57,5 @@ public class TicketService {
         listTickets.stream().filter(ticket -> ticket.getId() == id).findFirst()
                 .ifPresentOrElse(System.out::println, () -> System.out.println("We don't have ticket with this id: " + id));
     }
+
 }

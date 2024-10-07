@@ -1,10 +1,11 @@
 package models;
 
+import Interface.InterfacePrintInformation;
 import services.TicketService;
 
 import java.time.LocalDateTime;
 
-public class Ticket {
+public class Ticket implements InterfacePrintInformation {
 
     private final short id;                                                             // Unique code ticket. You get id when create new ticket. Max value 9999.
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
@@ -25,7 +26,7 @@ public class Ticket {
 
     public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo) {
         ++count;
-        if(controlTicketId(count) & controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
+        if (controlTicketId(count) & controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.id = count;
             this.concertHall = concertHall;
             this.eventCode = eventCode;
@@ -88,20 +89,29 @@ public class Ticket {
         return true;
     }
 
-    private boolean controlInformationAboutSector(Sector sector){
-        if(sector != Sector.A & sector != Sector.B & sector != Sector.C){
+    private boolean controlInformationAboutSector(Sector sector) {
+        if (sector != Sector.A & sector != Sector.B & sector != Sector.C) {
             System.out.println("We don't have this sector");
             return false;
         }
         return true;
     }
 
-    private boolean controlLengthNamePlace(String namePlace){
-        if (namePlace.length() > 10){
+    private boolean controlLengthNamePlace(String namePlace) {
+        if (namePlace.length() > 10) {
             System.out.println("Name place have more 10 symbols");
             return false;
         }
         return true;
+    }
+
+    public void typeDeviceAccordingEventCode(Ticket ticket) {
+        System.out.println("If your code event <333 you visit club and you can use only number of your phone\n" +
+                           "If your code event >333 and <667 you visit theater. We send ticket on your email or you" +
+                "can use number of your phone\n" +
+                           "If your code event  >=667 you visit cinema. We send ticket on your email or you" +
+                "can use number of your phone\n"
+        );
     }
 
     @Override
@@ -116,5 +126,10 @@ public class Ticket {
                 ", promo=" + promo +
                 ", maxBackpackWeight=" + maxBackpackWeight +
                 '}';
+    }
+
+    @Override
+    public void printInformationAboutObject(Object object) {
+        System.out.println(object);
     }
 }
