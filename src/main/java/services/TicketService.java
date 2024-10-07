@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 public class TicketService {
 
+    /*Give information about max weight backpack according event code*/
     public float maxWeightAccordingEventCode(short codeEvent) {
 
         if (codeEvent == 0) {
@@ -24,6 +25,7 @@ public class TicketService {
         }
     }
 
+    /*Give information when will be event according event code*/
     public LocalDateTime dateEvent(short codeEvent) {
         if (codeEvent == 0) {
             return LocalDateTime.now();
@@ -53,9 +55,21 @@ public class TicketService {
                 ticket6, ticket7, ticket8, ticket9, ticket10).toList();
     }
 
+    /*This method give you ability find ticket by id*/
     public void getInformationAboutTicketById(short id, List<Ticket> listTickets){
         listTickets.stream().filter(ticket -> ticket.getId() == id).findFirst()
-                .ifPresentOrElse(System.out::println, () -> System.out.println("We don't have ticket with this id: " + id));
+                .ifPresentOrElse(System.out::println, () -> System.out.println("We don't have ticket" +
+                        " with this id: " + id));
+    }
+
+
+    /*This method get you ability edit information about sector*/
+    public void editSector(Ticket ticket, Sector newSector){
+        ticket.setStadiumSector(newSector);
+    }
+
+    public void lookInformationAboutAllTicket(List<Ticket> listTickets){
+        listTickets.forEach(System.out::println);
     }
 
 }

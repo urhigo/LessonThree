@@ -73,6 +73,10 @@ public class Ticket implements InterfacePrintInformation {
         return stadiumSector;
     }
 
+    public void setStadiumSector(Sector stadiumSector) {
+        this.stadiumSector = stadiumSector;
+    }
+
     public boolean controlTicketId(short id) {
         if (id > 9999) {
             System.out.println("We don't have tickets");
@@ -96,6 +100,8 @@ public class Ticket implements InterfacePrintInformation {
         }
         return true;
     }
+
+
 
     private boolean controlLengthNamePlace(String namePlace) {
         if (namePlace.length() > 10) {

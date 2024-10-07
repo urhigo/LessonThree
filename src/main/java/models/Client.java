@@ -2,10 +2,10 @@ package models;
 
 public class Client extends User{
 
+   private final Role role = Role.USER;
 
-
-    public Client(long id, String name, Role role) {
-        super(id, name, role);
+    public Client(long id, String name) {
+        super(id, name);
     }
 
     @Override

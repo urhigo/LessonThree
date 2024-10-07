@@ -5,13 +5,13 @@ import Interface.InterfacePrintInformation;
 public class User implements InterfacePrintInformation {
 
 
-    public User() {
+    public User(long id, String name) {
     }
 
     public User(long id, String name, Role role) {
         this.id = id;
         this.name = name;
-        this.role = role;
+
     }
 
     private long id;
