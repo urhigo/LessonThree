@@ -1,13 +1,14 @@
 package models;
 
 import Interface.InterfacePrintInformation;
+import services.AutoCreateID;
 import services.TicketService;
 
 import java.time.LocalDateTime;
 
-public class Ticket implements InterfacePrintInformation {
+public class Ticket extends AutoCreateID implements InterfacePrintInformation {
 
-    private final short id;                                                             // Unique code ticket. You get id when create new ticket. Max value 9999.
+
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
     private final LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
@@ -17,17 +18,11 @@ public class Ticket implements InterfacePrintInformation {
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
 
 
-    private static short count = 0;
-
     public Ticket() {
-        ++count;
-        this.id = count;
     }
 
     public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo) {
-        ++count;
-        if (controlTicketId(count) & controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
-            this.id = count;
+        if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
             this.stadiumSector = stadiumSector;
@@ -35,15 +30,11 @@ public class Ticket implements InterfacePrintInformation {
             this.maxBackpackWeight = new TicketService().maxWeightAccordingEventCode(eventCode);
             this.dateEvent = new TicketService().dateEvent(eventCode);
         } else {
-            --count;
             throw new IllegalArgumentException("Invalid ticket information");
         }
     }
 
 
-    public short getId() {
-        return id;
-    }
 
     public LocalDateTime getTimeCreateTicket() {
         return timeCreateTicket;

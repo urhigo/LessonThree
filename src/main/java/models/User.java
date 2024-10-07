@@ -1,22 +1,21 @@
 package models;
 
 import Interface.InterfacePrintInformation;
+import services.AutoCreateID;
 
-public class User implements InterfacePrintInformation {
+public class User extends AutoCreateID implements InterfacePrintInformation {
 
 
-    public User(long id, String name) {
-    }
-
-    public User(long id, String name, Role role) {
-        this.id = id;
-        this.name = name;
-
-    }
-
-    private long id;
     private String name;
     private Role role;
+
+    public User() {
+    }
+
+    public User(String name, Role role) {
+        this.name = name;
+        this.role = role;
+    }
 
     public Role getRole() {
         return role;

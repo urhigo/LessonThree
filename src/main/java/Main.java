@@ -7,16 +7,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<Ticket> listTickets = new TicketService().ticketsStorage();
-        new TicketService().getInformationAboutTicketById((short) 1, listTickets);
-        new TicketService().getInformationAboutTicketById((short) 44, listTickets);
 
-        Admin user1 = new Admin(1, "Peta", Role.ADMIN);
-        user1.getUserRole(user1);
-        user1.printInformationAboutObject(user1);
-        Client user2 = new Client(2, "Vita", Role.USER);
-        user1.getUserRole(user2);
-        user1.printInformationAboutObject(user2);
+        User user1 = new User();
+        System.out.println(user1.getId());
+        System.out.println(user1);
+        Admin user2 = new Admin("Peta", Role.ADMIN);
+        System.out.println(user2);
+        User user3 = new User();
+        System.out.println(user3);
+        Client user4 = new Client("Vita", Role.USER);
+        System.out.println(user4);
 
     }
 }

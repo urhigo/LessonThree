@@ -4,8 +4,8 @@ public class Client extends User{
 
    private final Role role = Role.USER;
 
-    public Client(long id, String name) {
-        super(id, name);
+    public Client(String name, Role role) {
+        super(name, role);
     }
 
     @Override
