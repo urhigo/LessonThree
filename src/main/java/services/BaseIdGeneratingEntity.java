@@ -2,7 +2,7 @@ package services;
 
 import java.util.UUID;
 
-public abstract class AutoCreateID {
+public abstract class BaseIdGeneratingEntity {
 
     protected String id = UUID.randomUUID().toString();
 

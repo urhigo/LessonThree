@@ -1,12 +1,13 @@
 package models;
 
 import Interface.InterfacePrintInformation;
-import services.AutoCreateID;
+import services.BaseIdGeneratingEntity;
 import services.TicketService;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-public class Ticket extends AutoCreateID implements InterfacePrintInformation {
+public class Ticket extends BaseIdGeneratingEntity implements InterfacePrintInformation {
 
 
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
@@ -33,8 +34,6 @@ public class Ticket extends AutoCreateID implements InterfacePrintInformation {
             throw new IllegalArgumentException("Invalid ticket information");
         }
     }
-
-
 
     public LocalDateTime getTimeCreateTicket() {
         return timeCreateTicket;
@@ -68,6 +67,37 @@ public class Ticket extends AutoCreateID implements InterfacePrintInformation {
         this.stadiumSector = stadiumSector;
     }
 
+    public void setDateEvent(LocalDateTime dateEvent) {
+        this.dateEvent = dateEvent;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Ticket ticket = (Ticket) object;
+        return eventCode == ticket.eventCode && promo == ticket.promo && Float.compare(maxBackpackWeight, ticket.maxBackpackWeight) == 0 && Objects.equals(concertHall, ticket.concertHall) && Objects.equals(timeCreateTicket, ticket.timeCreateTicket) && Objects.equals(dateEvent, ticket.dateEvent) && stadiumSector == ticket.stadiumSector;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(concertHall, eventCode, timeCreateTicket, dateEvent, stadiumSector, promo, maxBackpackWeight);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", concertHall='" + concertHall + '\'' +
+                ", eventCode=" + eventCode +
+                ", timeCreateTicket=" + timeCreateTicket +
+                ", dateEvent=" + dateEvent +
+                ", stadiumSector=" + stadiumSector +
+                ", promo=" + promo +
+                ", maxBackpackWeight=" + maxBackpackWeight +
+                '}';
+    }
+
     public boolean controlTicketId(short id) {
         if (id > 9999) {
             System.out.println("We don't have tickets");
@@ -93,7 +123,6 @@ public class Ticket extends AutoCreateID implements InterfacePrintInformation {
     }
 
 
-
     private boolean controlLengthNamePlace(String namePlace) {
         if (namePlace.length() > 10) {
             System.out.println("Name place have more 10 symbols");
@@ -109,20 +138,6 @@ public class Ticket extends AutoCreateID implements InterfacePrintInformation {
                            "If your code event  >=667 you visit cinema. We send ticket on your email or you" +
                 "can use number of your phone\n"
         );
-    }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", concertHall='" + concertHall + '\'' +
-                ", eventCode=" + eventCode +
-                ", timeCreateTicket=" + timeCreateTicket +
-                ", dateEvent=" + dateEvent +
-                ", stadiumSector=" + stadiumSector +
-                ", promo=" + promo +
-                ", maxBackpackWeight=" + maxBackpackWeight +
-                '}';
     }
 
     @Override

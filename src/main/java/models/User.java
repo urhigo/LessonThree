@@ -1,9 +1,9 @@
 package models;
 
 import Interface.InterfacePrintInformation;
-import services.AutoCreateID;
+import services.BaseIdGeneratingEntity;
 
-public class User extends AutoCreateID implements InterfacePrintInformation {
+public class User extends BaseIdGeneratingEntity implements InterfacePrintInformation {
 
 
     private String name;
