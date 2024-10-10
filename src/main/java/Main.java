@@ -1,4 +1,4 @@
-import models.Ticket;
+import models.*;
 import services.TicketService;
 
 import java.util.List;
@@ -7,8 +7,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<Ticket> listTickets = new TicketService().ticketsStorage();
-        new TicketService().getInformationAboutTicketById((short) 1, listTickets);
-        new TicketService().getInformationAboutTicketById((short) 44, listTickets);
+
+        User user1 = new User();
+        System.out.println(user1.getId());
+        System.out.println(user1);
+        Admin user2 = new Admin("Peta", Role.ADMIN);
+        System.out.println(user2);
+        User user3 = new User();
+        System.out.println(user3);
+        Client user4 = new Client("Vita", Role.USER);
+        System.out.println(user4);
+
     }
 }
