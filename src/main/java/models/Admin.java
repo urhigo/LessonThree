@@ -8,8 +8,14 @@ public class Admin extends User{
         super(name, role);
     }
 
-    @Override
-    public void uniqueAbility(){
+
+    public void checkTicket(){
         System.out.println("Admin: check ticket");
+    }
+
+
+    @Override
+    public void getUserRole() {
+        System.out.println("Role user: " + role);
     }
 }

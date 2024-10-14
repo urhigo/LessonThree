@@ -8,8 +8,12 @@ public class Client extends User{
         super(name, role);
     }
 
-    @Override
-    public void uniqueAbility(){
+    public void getTicket(){
         System.out.println("User: get ticket");
+    }
+
+    @Override
+    public void getUserRole() {
+        System.out.println("Role user: " + role);
     }
 }

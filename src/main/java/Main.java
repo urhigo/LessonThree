@@ -1,7 +1,8 @@
-import models.*;
-import services.TicketService;
+import models.Admin;
+import models.Client;
+import models.Role;
+import models.User;
 
-import java.util.List;
 
 public class Main {
 

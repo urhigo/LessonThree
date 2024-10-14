@@ -1,13 +1,13 @@
 package models;
 
-import Interface.InterfacePrintInformation;
+import Interface.Printable;
 import services.BaseIdGeneratingEntity;
 import services.TicketService;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Ticket extends BaseIdGeneratingEntity implements InterfacePrintInformation {
+public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
 
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.

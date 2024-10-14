@@ -1,9 +1,9 @@
 package models;
 
-import Interface.InterfacePrintInformation;
+import Interface.Printable;
 import services.BaseIdGeneratingEntity;
 
-public class User extends BaseIdGeneratingEntity implements InterfacePrintInformation {
+public class User extends BaseIdGeneratingEntity implements Printable {
 
 
     private String name;
@@ -21,13 +21,7 @@ public class User extends BaseIdGeneratingEntity implements InterfacePrintInform
         return role;
     }
 
-    public void uniqueAbility() {
-        System.out.println("Unique ability\nAdmin: check ticket\nUser: get ticket");
-    }
 
-    public void getUserRole(User user) {
-        System.out.println(user.getRole());
-    }
 
     @Override
     public void printInformationAboutObject(Object object) {
@@ -42,5 +36,11 @@ public class User extends BaseIdGeneratingEntity implements InterfacePrintInform
                 ", name='" + name + '\'' +
                 ", role=" + role +
                 '}';
+    }
+
+
+    public void getUserRole() {
+        System.out.println("All user have role: Admin, Client"
+        + "\nThis user: " + role);
     }
 }

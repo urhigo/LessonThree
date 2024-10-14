@@ -1,8 +1,6 @@
 package Interface;
 
-import models.User;
-
-public interface InterfacePrintInformation {
+public interface Printable {
 
     void printInformationAboutObject(Object object);
 
