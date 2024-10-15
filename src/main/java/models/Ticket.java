@@ -130,14 +130,13 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
         }
         return true;
     }
+    public void shared (String phoneNumber){
+        System.out.println("Ticket shared by phone number: " + phoneNumber);
+    }
 
-    public void typeDeviceAccordingEventCode(Ticket ticket) {
-        System.out.println("If your code event <333 you visit club and you can use only number of your phone\n" +
-                           "If your code event >333 and <667 you visit theater. We send ticket on your email or you" +
-                "can use number of your phone\n" +
-                           "If your code event  >=667 you visit cinema. We send ticket on your email or you" +
-                "can use number of your phone\n"
-        );
+    public void shared (String phoneNumber, String email){
+        System.out.println("Ticket shared by phone number: " + phoneNumber +
+                "\nTicked shared by email: " + email);
     }
 
     @Override
