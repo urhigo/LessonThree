@@ -1,12 +1,15 @@
 package models;
 
+import Interface.Printable;
+import services.BaseIdGeneratingEntity;
 import services.TicketService;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-public class Ticket {
+public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
-    private final short id;                                                             // Unique code ticket. You get id when create new ticket. Max value 9999.
+
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
     private final LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
@@ -16,17 +19,11 @@ public class Ticket {
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
 
 
-    private static short count = 0;
-
     public Ticket() {
-        ++count;
-        this.id = count;
     }
 
     public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo) {
-        ++count;
-        if(controlTicketId(count) & controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
-            this.id = count;
+        if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
             this.stadiumSector = stadiumSector;
@@ -34,14 +31,8 @@ public class Ticket {
             this.maxBackpackWeight = new TicketService().maxWeightAccordingEventCode(eventCode);
             this.dateEvent = new TicketService().dateEvent(eventCode);
         } else {
-            --count;
             throw new IllegalArgumentException("Invalid ticket information");
         }
-    }
-
-
-    public short getId() {
-        return id;
     }
 
     public LocalDateTime getTimeCreateTicket() {
@@ -72,6 +63,41 @@ public class Ticket {
         return stadiumSector;
     }
 
+    public void setStadiumSector(Sector stadiumSector) {
+        this.stadiumSector = stadiumSector;
+    }
+
+    public void setDateEvent(LocalDateTime dateEvent) {
+        this.dateEvent = dateEvent;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Ticket ticket = (Ticket) object;
+        return eventCode == ticket.eventCode && promo == ticket.promo && Float.compare(maxBackpackWeight, ticket.maxBackpackWeight) == 0 && Objects.equals(concertHall, ticket.concertHall) && Objects.equals(timeCreateTicket, ticket.timeCreateTicket) && Objects.equals(dateEvent, ticket.dateEvent) && stadiumSector == ticket.stadiumSector;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(concertHall, eventCode, timeCreateTicket, dateEvent, stadiumSector, promo, maxBackpackWeight);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", concertHall='" + concertHall + '\'' +
+                ", eventCode=" + eventCode +
+                ", timeCreateTicket=" + timeCreateTicket +
+                ", dateEvent=" + dateEvent +
+                ", stadiumSector=" + stadiumSector +
+                ", promo=" + promo +
+                ", maxBackpackWeight=" + maxBackpackWeight +
+                '}';
+    }
+
     public boolean controlTicketId(short id) {
         if (id > 9999) {
             System.out.println("We don't have tickets");
@@ -88,33 +114,33 @@ public class Ticket {
         return true;
     }
 
-    private boolean controlInformationAboutSector(Sector sector){
-        if(sector != Sector.A & sector != Sector.B & sector != Sector.C){
+    private boolean controlInformationAboutSector(Sector sector) {
+        if (sector != Sector.A & sector != Sector.B & sector != Sector.C) {
             System.out.println("We don't have this sector");
             return false;
         }
         return true;
     }
 
-    private boolean controlLengthNamePlace(String namePlace){
-        if (namePlace.length() > 10){
+
+    private boolean controlLengthNamePlace(String namePlace) {
+        if (namePlace.length() > 10) {
             System.out.println("Name place have more 10 symbols");
             return false;
         }
         return true;
     }
+    public void shared (String phoneNumber){
+        System.out.println("Ticket shared by phone number: " + phoneNumber);
+    }
+
+    public void shared (String phoneNumber, String email){
+        System.out.println("Ticket shared by phone number: " + phoneNumber +
+                "\nTicked shared by email: " + email);
+    }
 
     @Override
-    public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", concertHall='" + concertHall + '\'' +
-                ", eventCode=" + eventCode +
-                ", timeCreateTicket=" + timeCreateTicket +
-                ", dateEvent=" + dateEvent +
-                ", stadiumSector=" + stadiumSector +
-                ", promo=" + promo +
-                ", maxBackpackWeight=" + maxBackpackWeight +
-                '}';
+    public void printInformationAboutObject(Object object) {
+        System.out.println(object);
     }
 }
