@@ -18,6 +18,24 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
 
+    private TicketType ticketType;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public TicketType getTicketType() {
+        return ticketType;
+    }
+
+    public void setTicketType(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
 
     public Ticket() {
     }
