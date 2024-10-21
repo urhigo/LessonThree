@@ -17,6 +17,9 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
     private Sector stadiumSector;                                                        // Sector where you will be on event.
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
+    private TicketType ticketType;
+    private String userId;
+
 
 
     public Ticket() {
@@ -61,6 +64,22 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
     public Sector getStadiumSector() {
         return stadiumSector;
+    }
+
+    public TicketType getTicketType() {
+        return ticketType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setTicketType(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public void setStadiumSector(Sector stadiumSector) {
