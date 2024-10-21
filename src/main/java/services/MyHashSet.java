@@ -87,7 +87,6 @@ public class MyHashSet<E> {
         buckets = newBuckets;
     }
 
-
     public Iterator<E> iterator() {
         LinkedList<E> allElements = new LinkedList<>();
         for (LinkedList<E> bucket : buckets) {

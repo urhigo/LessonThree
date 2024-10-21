@@ -7,9 +7,11 @@ public class MyArrayList<E> {
     private Object[] elements;
     private int size = 0;
 
+
     public MyArrayList() {
         elements = new Object[INITIAL_CAPACITY];
     }
+
 
     public void add(E e) {
         if (size == elements.length) {
@@ -18,12 +20,14 @@ public class MyArrayList<E> {
         elements[size++] = e;
     }
 
+
     public E get(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
         return (E) elements[index];
     }
+
 
     public E remove(int index) {
         if (index >= size || index < 0) {
