@@ -2,34 +2,39 @@ package repositories;
 
 import models.Ticket;
 import models.TicketType;
+import services.ConnectionConfig;
 
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TicketDAO {
 
-    private Connection connection;
+    private static final String SQL_COMMAND_ADD = "INSERT INTO ticket (id, user_id, ticket_type, creation_date) VALUE (?, ?, ?, ?)";
+    private static final String SQL_COMMAND_GET_BY_ID = "SELECT * FROM ticket WHERE id = ?;";
+    private static final String SQL_COMMAND_UPDATE = "UPDATE ticket SET id = ?, ticket_type = ?, user_id = ?, creation_date = ? WHERE id = ?";
+    private static final String SQL_COMMAND_DELETE = "DELETE FROM ticket WHERE id = ?";
 
-    public TicketDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public void addTicket(Ticket ticket){
-        String sqlCommand = "INSERT INTO ticket (id, user_id, ticket_type, creation_date) VALUE (?, ?, ?, ?)";
-        try(PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+    public void addTicket(Ticket ticket) {
+        try (Connection connection = ConnectionConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_ADD)) {
             statement.setString(1, String.valueOf(ticket.getId()));
             statement.setString(2, String.valueOf(ticket.getTicketType()));
             statement.setString(3, String.valueOf(ticket.getUserId()));
             statement.setString(4, String.valueOf(ticket.getTimeCreateTicket()));
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Ticket getTicketById(String id){
-        String sqlCommand = "SELECT * FROM ticket WHERE id = ?;";
-        try (PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+    public Ticket getTicketById(String id) {
+        try (Connection connection = ConnectionConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_GET_BY_ID)) {
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -40,17 +45,17 @@ public class TicketDAO {
                     return ticketFromDB;
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
 
-    public List<Ticket> getTicketByUserId(String id){
-        String sqlCommand = "SELECT * FROM ticket WHERE user_id = ?;";
+    public List<Ticket> getTicketByUserId(String id) {
         List<Ticket> tickets = new ArrayList<>();
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sqlCommand)) {
+        try (Connection connection = ConnectionConfig.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL_COMMAND_GET_BY_ID)) {
             while (resultSet.next()) {
                 Ticket ticket = new Ticket();
 
@@ -60,29 +65,33 @@ public class TicketDAO {
 
                 tickets.add(ticket);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
         return tickets;
     }
 
-    public void updateTicket(Ticket ticket) throws SQLException {
-        String sqlCommand = "UPDATE ticket SET id = ?, ticket_type = ?, user_id = ?, creation_date = ? WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+    public void updateTicket(Ticket ticket) {
+        try (Connection connection = ConnectionConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_UPDATE)) {
             statement.setString(1, String.valueOf(ticket.getId()));
             statement.setString(2, String.valueOf(ticket.getTicketType()));
             statement.setString(3, String.valueOf(ticket.getUserId()));
             statement.setString(4, String.valueOf(ticket.getTimeCreateTicket()));
             statement.setString(5, ticket.getId());
             statement.executeUpdate();
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void deleteTicket(String id) throws SQLException {
-        String sqlCommand = "DELETE FROM ticket WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sqlCommand)) {
+    public void deleteTicket(String id) {
+        try (Connection connection = ConnectionConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_DELETE)) {
             statement.setString(1, id);
             statement.executeUpdate();
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
