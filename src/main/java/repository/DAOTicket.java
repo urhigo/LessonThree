@@ -2,7 +2,6 @@ package repository;
 
 import models.Ticket;
 import models.TicketType;
-import services.ConnectionConfig;
 
 import java.io.IOException;
 import java.sql.*;

@@ -1,7 +1,6 @@
 package repository;
 
 import models.User;
-import services.ConnectionConfig;
 
 import java.io.IOException;
 import java.sql.Connection;
