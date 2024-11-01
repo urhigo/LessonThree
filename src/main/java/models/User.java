@@ -3,11 +3,14 @@ package models;
 import Interface.Printable;
 import services.BaseIdGeneratingEntity;
 
+import java.time.LocalDateTime;
+
 public class User extends BaseIdGeneratingEntity implements Printable {
 
 
     private String name;
     private Role role;
+    private final LocalDateTime timeCreationUser = LocalDateTime.now();
 
     public User() {
     }
@@ -21,7 +24,23 @@ public class User extends BaseIdGeneratingEntity implements Printable {
         return role;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public LocalDateTime getTimeCreationUser() {
+        return timeCreationUser;
+    }
+
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public void printInformationAboutObject(Object object) {

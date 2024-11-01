@@ -17,12 +17,13 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
     private Sector stadiumSector;                                                        // Sector where you will be on event.
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
-
+    private TicketType ticketType;
+    private String userId;
 
     public Ticket() {
     }
 
-    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo) {
+    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
         if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
@@ -30,9 +31,19 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
             this.promo = promo;
             this.maxBackpackWeight = new TicketService().maxWeightAccordingEventCode(eventCode);
             this.dateEvent = new TicketService().dateEvent(eventCode);
+            this.userId = userId;
+            this.ticketType = ticketType;
         } else {
             throw new IllegalArgumentException("Invalid ticket information");
         }
+    }
+
+    public TicketType getTicketType() {
+        return ticketType;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public LocalDateTime getTimeCreateTicket() {
@@ -69,6 +80,14 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
     public void setDateEvent(LocalDateTime dateEvent) {
         this.dateEvent = dateEvent;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setTicketType(TicketType ticketType) {
+        this.ticketType = ticketType;
     }
 
     @Override
