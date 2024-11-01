@@ -23,7 +23,7 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
     public Ticket() {
     }
 
-    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo) {
+    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
         if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
@@ -31,6 +31,8 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
             this.promo = promo;
             this.maxBackpackWeight = new TicketService().maxWeightAccordingEventCode(eventCode);
             this.dateEvent = new TicketService().dateEvent(eventCode);
+            this.userId = userId;
+            this.ticketType = ticketType;
         } else {
             throw new IllegalArgumentException("Invalid ticket information");
         }
