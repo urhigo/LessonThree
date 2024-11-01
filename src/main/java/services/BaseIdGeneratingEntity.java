@@ -1,16 +1,23 @@
 package services;
 
-import java.util.UUID;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
+
+@MappedSuperclass
 public abstract class BaseIdGeneratingEntity {
 
-    protected String id = UUID.randomUUID().toString();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

@@ -1,26 +1,40 @@
 package models;
 
 import Interface.Printable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import services.BaseIdGeneratingEntity;
 import services.TicketService;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "ticket")
 public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
-
+    @Transient
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
+    @Transient
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
+    @Column(name = "creation_date")
     private final LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
+    @Transient
     private LocalDateTime dateEvent;                                                    // Date when will be event.
+    @Transient
     private Sector stadiumSector;                                                        // Sector where you will be on event.
+    @Transient
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
+    @Transient
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
+    @Column(name = "ticket_type")
     private TicketType ticketType;
+
     private String userId;
 
-    public Ticket() {
+    public Ticket(String club, short eventCode, Sector b, boolean promo, int id, TicketType day) {
     }
 
     public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
