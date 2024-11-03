@@ -14,20 +14,24 @@ public class DAOTicket {
         Transaction transaction = session.beginTransaction();
         session.persist(ticket);
         transaction.commit();
+        session.close();
     }
 
-    public Ticket getTicketById(String id) {
+    public Ticket getTicketById(int id) {
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
-        return session.get(Ticket.class, id);
+        Ticket ticketFromDB = session.get(Ticket.class, id);
+        session.close();
+        return ticketFromDB;
     }
 
-    public List<Ticket> getTicketByUserId(String id) {
+    public List<Ticket> getTicketByUserId(int id) {
         List<Ticket> tickets = new ArrayList<>();
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        tickets = session.createQuery("FROM Ticket WHERE user.id = :userId", Ticket.class).setParameter("userId", id)
-                .getResultList();
+        tickets = session.createQuery("FROM Ticket WHERE userId.id = :userId", Ticket.class)
+                .setParameter("userId", id) .getResultList();
         transaction.commit();
+        session.close();
         return tickets;
     }
 
@@ -36,9 +40,10 @@ public class DAOTicket {
         Transaction transaction = session.beginTransaction();
         session.merge(ticket);
         transaction.commit();
+        session.close();
     }
 
-    public void deleteTicket(String id) {
+    public void deleteTicket(int id) {
         Session session = SessionFactoryProvider.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         Ticket ticketFromDB = session.get(Ticket.class, id);
@@ -49,5 +54,6 @@ public class DAOTicket {
             System.out.println("Not ticket with this id");
             transaction.rollback();
         }
+        session.close();
     }
 }

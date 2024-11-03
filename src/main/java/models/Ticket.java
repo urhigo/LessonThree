@@ -1,10 +1,7 @@
 package models;
 
 import Interface.Printable;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import services.BaseIdGeneratingEntity;
 import services.TicketService;
 
@@ -30,14 +27,19 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
     @Transient
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
     @Column(name = "ticket_type")
+    @Enumerated(EnumType.STRING)
     private TicketType ticketType;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;
 
-    private String userId;
+    public Ticket() {
+    }
 
     public Ticket(String club, short eventCode, Sector b, boolean promo, int id, TicketType day) {
     }
 
-    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
+    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, User userId, TicketType ticketType) {
         if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
@@ -56,7 +58,7 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
         return ticketType;
     }
 
-    public String getUserId() {
+    public User getUserId() {
         return userId;
     }
 
@@ -96,7 +98,7 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
         this.dateEvent = dateEvent;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
