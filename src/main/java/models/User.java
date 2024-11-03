@@ -1,15 +1,24 @@
 package models;
 
 import Interface.Printable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import services.BaseIdGeneratingEntity;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "_user")
 public class User extends BaseIdGeneratingEntity implements Printable {
 
 
+    @Column(name = "name")
     private String name;
+    @Transient
     private Role role;
+    @Column(name = "creation_date")
     private final LocalDateTime timeCreationUser = LocalDateTime.now();
 
     public User() {

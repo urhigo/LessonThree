@@ -1,74 +1,56 @@
 package repository;
 
+import models.Ticket;
 import models.User;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
+
 
 public class DAOUser {
 
-    private static final String SQL_COMMAND_ADD = "INSERT INTO _user (id, name, creation_date) VALUES (?, ?, ?)";
-    private static final String SQL_COMMAND_GET_BY_ID = "SELECT * FROM _user WHERE id = ?;";
-    private static final String SQL_COMMAND_UPDATE = "UPDATE _user SET id = ?, name = ?, creation_date = ? WHERE id = ?";
-    private static final String SQL_COMMAND_DELETE = "DELETE FROM _user WHERE id = ?";
-
-
     public void addUser(User user) {
-        try {
-            Connection connection = ConnectionConfig.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_ADD);
-            statement.setString(1, String.valueOf(user.getId()));
-            statement.setString(2, user.getName());
-            statement.setString(3, String.valueOf(user.getTimeCreationUser()));
-            statement.executeUpdate();
-            connection.close();
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.persist(user);
+        transaction.commit();
+        session.close();
     }
 
-    public User getUserById(String id) {
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_GET_BY_ID)) {
-            statement.setString(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    User userFromDB = new User();
-                    userFromDB.setId(resultSet.getString("id"));
-                    userFromDB.setName(resultSet.getString("name"));
-                    return userFromDB;
-                }
-            }
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
+    public User getUserById(int id) {
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        User userFromDB = session.get(User.class, id);
+        return session.get(User.class, id);
     }
 
 
     public void updateUser(User user){
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_UPDATE)) {
-            statement.setString(1, String.valueOf(user.getId()));
-            statement.setString(2, String.valueOf(user.getName()));
-            statement.setString(3, String.valueOf(user.getTimeCreationUser()));
-            statement.setString(4, user.getId());
-            statement.executeUpdate();
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.merge(user);
+        transaction.commit();
+    }
+
+    public void deleteUser(int id) {
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        User userFromDB = session.get(User.class, id);
+        if (userFromDB != null) {
+            session.detach(userFromDB);
+            transaction.commit();
+        } else {
+            System.out.println("Not found user with this id");
+            transaction.rollback();
         }
     }
 
-    public void deleteUser(String id) {
-        try (Connection connection = ConnectionConfig.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_COMMAND_DELETE)) {
-            statement.setString(1, id);
-            statement.executeUpdate();
-        } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void updateUserAndAllTickets(User user, List<Ticket> userTickets){
+        Session session = SessionFactoryProvider.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.merge(user);
+        userTickets.forEach(session::merge);
+        transaction.commit();
+        session.close();
     }
 }

@@ -1,29 +1,45 @@
 package models;
 
 import Interface.Printable;
+import jakarta.persistence.*;
 import services.BaseIdGeneratingEntity;
 import services.TicketService;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "ticket")
 public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
-
+    @Transient
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
+    @Transient
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
+    @Column(name = "creation_date")
     private final LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
+    @Transient
     private LocalDateTime dateEvent;                                                    // Date when will be event.
+    @Transient
     private Sector stadiumSector;                                                        // Sector where you will be on event.
+    @Transient
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
+    @Transient
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
+    @Column(name = "ticket_type")
+    @Enumerated(EnumType.STRING)
     private TicketType ticketType;
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     public Ticket() {
     }
 
-    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
+    public Ticket(String club, short eventCode, Sector b, boolean promo, int id, TicketType day) {
+    }
+
+    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, User userId, TicketType ticketType) {
         if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
@@ -42,7 +58,7 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
         return ticketType;
     }
 
-    public String getUserId() {
+    public User getUserId() {
         return userId;
     }
 
@@ -82,7 +98,7 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
         this.dateEvent = dateEvent;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

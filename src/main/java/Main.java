@@ -13,16 +13,16 @@ public class Main {
         User user1 = new User();
         System.out.println(user1.getId());
         System.out.println(user1);
-        Admin user2 = new Admin("Peta", Role.ADMIN);
+        User user2 = new User("Peta", Role.ADMIN);
         System.out.println(user2);
         User user3 = new User();
         System.out.println(user3);
-        Client user4 = new Client("Vita", Role.USER);
+        User user4 = new User("Vita", Role.USER);
         System.out.println(user4);
 
-        Ticket ticket1 = new Ticket("club", (short) 182, Sector.B, true, user2.getId(), TicketType.DAY);
-        Ticket ticket2 = new Ticket("train", (short) 345, Sector.A, false, user4.getId(), TicketType.MONTH);
-        Ticket ticket3 = new Ticket("Buss", (short) 678, Sector.C, false, user4.getId(), TicketType.YEAR);
+        Ticket ticket1 = new Ticket("club", (short) 182, Sector.B, true, user2, TicketType.DAY);
+        Ticket ticket2 = new Ticket("train", (short) 345, Sector.A, false, user4, TicketType.MONTH);
+        Ticket ticket3 = new Ticket("Buss", (short) 678, Sector.C, false, user4, TicketType.YEAR);
 
         PhoneNumber phoneNumber1 = new PhoneNumber("+375291111111");
         PhoneNumber phoneNumber2 = new PhoneNumber("+375292222222");
