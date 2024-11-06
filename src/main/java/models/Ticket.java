@@ -12,7 +12,7 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
-    private final LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
+    private LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
     private LocalDateTime dateEvent;                                                    // Date when will be event.
     private Sector stadiumSector;                                                        // Sector where you will be on event.
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
@@ -88,6 +88,10 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
     public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
+    }
+
+    public void setTimeCreateTicket(LocalDateTime timeCreateTicket) {
+        this.timeCreateTicket = timeCreateTicket;
     }
 
     @Override
