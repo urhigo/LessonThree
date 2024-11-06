@@ -24,29 +24,24 @@ public class DAOTicket {
         this.jdbcTemplate = transaction;
     }
 
-    @Transactional
     public void addTicket(Ticket ticket) {
         jdbcTemplate.update(SQL_COMMAND_ADD, ticket.getId(), ticket.getUserId(),
                 ticket.getTicketType().name(), ticket.getTimeCreateTicket());
     }
 
-    @Transactional
     public Ticket getTicketById(String id) {
         return jdbcTemplate.queryForObject(SQL_COMMAND_GET_BY_ID, new TicketRowMapper(), id);
     }
 
-    @Transactional
     public List<Ticket> getTicketByUserId(String id) {
         return jdbcTemplate.query(SQL_COMMAND_GET_BY_USER_ID, new TicketRowMapper(), id);
     }
 
-    @Transactional
     public void updateTicket(Ticket ticket) {
         jdbcTemplate.update(SQL_COMMAND_UPDATE, ticket.getId(), ticket.getTicketType().name(),
                 ticket.getUserId(), ticket.getTimeCreateTicket(), ticket.getId());
     }
 
-    @Transactional
     public void deleteTicket(String id) {
         jdbcTemplate.update(SQL_COMMAND_DELETE, id);
     }

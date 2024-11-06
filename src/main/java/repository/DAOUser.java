@@ -24,24 +24,19 @@ public class DAOUser {
         this.transactionTemplate = transaction;
     }
 
-    @Transactional
     public void addUser(User user) {
         transactionTemplate.update(SQL_COMMAND_ADD, user.getId(), user.getName(),
                 String.valueOf(user.getTimeCreationUser()));
-
     }
 
-    @Transactional
     public User getUserById(String id) {
         return transactionTemplate.queryForObject(SQL_COMMAND_GET_BY_ID, new UserRowMapper(), id);
     }
 
-    @Transactional
     public void deleteUser(String id) {
         transactionTemplate.update(SQL_COMMAND_DELETE, id);
     }
 
-    @Transactional
     public void updateUser(User user) {
         transactionTemplate.update(SQL_COMMAND_UPDATE, user.getId(), user.getName(), user.getTimeCreationUser(), user.getId());
     }
