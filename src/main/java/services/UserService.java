@@ -3,19 +3,15 @@ package services;
 import models.Ticket;
 import models.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.DAOTicket;
 import repository.DAOUser;
 
-@Service
-@Transactional
 public class UserService {
 
-    DAOUser daoUser;
-    DAOTicket daoTicket;
+    private  final DAOUser daoUser;
+    private final DAOTicket daoTicket;
     private final boolean updateAndCreateEnabled;
-
 
     public UserService(@Value("${enableTicketCreation}") boolean updateAndCreateEnabled, DAOTicket daoTicket, DAOUser daoUser) {
         this.updateAndCreateEnabled = updateAndCreateEnabled;
@@ -23,6 +19,7 @@ public class UserService {
         this.daoUser = daoUser;
     }
 
+    @Transactional
     public void addUserInDB(User user){
         if(updateAndCreateEnabled) {
             daoUser.addUser(user);
@@ -35,14 +32,17 @@ public class UserService {
         return daoUser.getUserById(id);
     }
 
+    @Transactional
     public void updateUser(User user){
         daoUser.updateUser(user);
     }
 
+    @Transactional
     public void deleteUserInDB(String id){
         daoUser.deleteUser(id);
     }
 
+    @Transactional
     public void updateUserAndAddTicket(User user, Ticket ticket){
         daoUser.updateUser(user);
         ticket.setUserId(user.getId());

@@ -2,24 +2,18 @@ package services;
 
 import models.Sector;
 import models.Ticket;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.DAOTicket;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
 public class TicketService {
 
-    DAOTicket daoTicket;
+    private final DAOTicket daoTicket;
 
     public TicketService(DAOTicket daoTicket) {
         this.daoTicket = daoTicket;
-    }
-
-    public TicketService() {
-
     }
 
     /*Give information about max weight backpack according event code*/
@@ -68,12 +62,10 @@ public class TicketService {
         daoTicket.addTicket(ticket);
     }
 
-    @Transactional
     public Ticket getTicketFromDBById(String id){
         return daoTicket.getTicketById(id);
     }
 
-    @Transactional
     public List<Ticket> getListTicketsUser(String id){
         return daoTicket.getTicketByUserId(id);
     }
