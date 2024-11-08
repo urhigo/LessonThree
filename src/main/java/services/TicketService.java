@@ -10,7 +10,11 @@ import java.util.List;
 
 public class TicketService {
 
-    private final DAOTicket daoTicket;
+    private DAOTicket daoTicket;
+
+    public TicketService() {
+
+    }
 
     public TicketService(DAOTicket daoTicket) {
         this.daoTicket = daoTicket;
