@@ -1,23 +1,45 @@
 package models;
 
 import Interface.Printable;
-import services.BaseIdGeneratingEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 import services.TicketService;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Ticket extends BaseIdGeneratingEntity implements Printable {
+@Entity
+@Table(name = "ticket")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Ticket implements Printable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Transient
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
+    @Transient
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
+    @Column(name = "creation_date")
     private LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
+    @Transient
     private LocalDateTime dateEvent;                                                    // Date when will be event.
+    @Transient
     private Sector stadiumSector;                                                        // Sector where you will be on event.
+    @Transient
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
+    @Transient
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
+    @Column(name = "ticket_type")
     private TicketType ticketType;
-    private String userId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, TicketType ticketType) {
         if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
