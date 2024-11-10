@@ -10,7 +10,7 @@ public class User extends BaseIdGeneratingEntity implements Printable {
 
     private String name;
     private Role role;
-    private final LocalDateTime timeCreationUser = LocalDateTime.now();
+    private LocalDateTime timeCreationUser = LocalDateTime.now();
 
     public User() {
     }
@@ -40,6 +40,10 @@ public class User extends BaseIdGeneratingEntity implements Printable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setTimeCreationUser(LocalDateTime timeCreationUser) {
+        this.timeCreationUser = timeCreationUser;
     }
 
     @Override

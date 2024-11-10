@@ -9,10 +9,9 @@ import java.util.Objects;
 
 public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
-
     private String concertHall;                                                         // Name concert hall. Max length 10 symbols.
     private short eventCode;                                                            // Unique code event. You get it code when buy ticket.
-    private final LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
+    private LocalDateTime timeCreateTicket = LocalDateTime.now();                 // Local time when you buy your ticket.
     private LocalDateTime dateEvent;                                                    // Date when will be event.
     private Sector stadiumSector;                                                        // Sector where you will be on event.
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
@@ -20,7 +19,18 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
     private TicketType ticketType;
     private String userId;
 
-    public Ticket() {
+    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, TicketType ticketType) {
+        if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
+            this.concertHall = concertHall;
+            this.eventCode = eventCode;
+            this.stadiumSector = stadiumSector;
+            this.promo = promo;
+            this.maxBackpackWeight = new TicketService().maxWeightAccordingEventCode(eventCode);
+            this.dateEvent = new TicketService().dateEvent(eventCode);
+            this.ticketType = ticketType;
+        } else {
+            throw new IllegalArgumentException("Invalid ticket information");
+        }
     }
 
     public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
@@ -88,6 +98,10 @@ public class Ticket extends BaseIdGeneratingEntity implements Printable {
 
     public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
+    }
+
+    public void setTimeCreateTicket(LocalDateTime timeCreateTicket) {
+        this.timeCreateTicket = timeCreateTicket;
     }
 
     @Override

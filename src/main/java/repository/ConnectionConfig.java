@@ -11,9 +11,9 @@ public class ConnectionConfig {
 
     private static Properties loadProperties() throws IOException {
         Properties properties = new Properties();
-        try (InputStream input = ConnectionConfig.class.getClassLoader().getResourceAsStream("database.properties")) {
+        try (InputStream input = ConnectionConfig.class.getClassLoader().getResourceAsStream("application.properties")) {
             if (input == null) {
-                throw new IOException("Unable to find database.properties");
+                throw new IOException("Unable to find application.properties");
             }
             properties.load(input);
         }
