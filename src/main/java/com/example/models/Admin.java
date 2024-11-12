@@ -1,10 +1,12 @@
-package models;
+package com.example.models;
 
-public class Admin extends User{
+import com.example.models.User;
 
-    private final Role role = Role.ADMIN;
+public class Admin extends User {
 
-    public Admin(String name, Role role) {
+    private final models.Role role = models.Role.ADMIN;
+
+    public Admin(String name, models.Role role) {
         super(name, role);
     }
 

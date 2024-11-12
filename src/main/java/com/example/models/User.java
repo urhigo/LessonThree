@@ -1,15 +1,15 @@
-package models;
+package com.example.models;
 
-import Interface.Printable;
+import com.example.Interface.Printable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
 
@@ -26,18 +26,18 @@ public class User implements Printable {
     @Column
     private String name;
     @Transient
-    private Role role;
+    private models.Role role;
     @Column(name = "creation_date")
     private LocalDateTime timeCreationUser = LocalDateTime.now();
 
 
 
-    public User(String name, Role role) {
+    public User(String name, models.Role role) {
         this.name = name;
         this.role = role;
     }
 
-    public Role getRole() {
+    public models.Role getRole() {
         return role;
     }
 
@@ -55,7 +55,7 @@ public class User implements Printable {
         this.name = name;
     }
 
-    public void setRole(Role role) {
+    public void setRole(models.Role role) {
         this.role = role;
     }
 

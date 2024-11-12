@@ -1,11 +1,11 @@
-package models;
+package com.example.models;
 
-import Interface.Printable;
+import com.example.Interface.Printable;
+import com.example.services.TicketService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Transient;
-import services.TicketService;
+
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -29,19 +29,19 @@ public class Ticket implements Printable {
     @Transient
     private LocalDateTime dateEvent;                                                    // Date when will be event.
     @Transient
-    private Sector stadiumSector;                                                        // Sector where you will be on event.
+    private models.Sector stadiumSector;                                                        // Sector where you will be on event.
     @Transient
     private boolean promo;                                                              // This is the event kind of marketing promotion or not.
     @Transient
     private float maxBackpackWeight;                                                    // Max weight backpack on event according cod event.
     @Column(name = "ticket_type")
-    private TicketType ticketType;
+    private models.TicketType ticketType;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, TicketType ticketType) {
+    public Ticket(String concertHall, short eventCode, models.Sector stadiumSector, boolean promo, models.TicketType ticketType) {
         if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
             this.concertHall = concertHall;
             this.eventCode = eventCode;
@@ -55,27 +55,9 @@ public class Ticket implements Printable {
         }
     }
 
-    public Ticket(String concertHall, short eventCode, Sector stadiumSector, boolean promo, String userId, TicketType ticketType) {
-        if (controlEventCode(eventCode) & controlLengthNamePlace(concertHall) & controlInformationAboutSector(stadiumSector)) {
-            this.concertHall = concertHall;
-            this.eventCode = eventCode;
-            this.stadiumSector = stadiumSector;
-            this.promo = promo;
-            this.maxBackpackWeight = new TicketService().maxWeightAccordingEventCode(eventCode);
-            this.dateEvent = new TicketService().dateEvent(eventCode);
-            this.userId = userId;
-            this.ticketType = ticketType;
-        } else {
-            throw new IllegalArgumentException("Invalid ticket information");
-        }
-    }
 
-    public TicketType getTicketType() {
+    public models.TicketType getTicketType() {
         return ticketType;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public LocalDateTime getTimeCreateTicket() {
@@ -102,11 +84,11 @@ public class Ticket implements Printable {
         return eventCode;
     }
 
-    public Sector getStadiumSector() {
+    public models.Sector getStadiumSector() {
         return stadiumSector;
     }
 
-    public void setStadiumSector(Sector stadiumSector) {
+    public void setStadiumSector(models.Sector stadiumSector) {
         this.stadiumSector = stadiumSector;
     }
 
@@ -114,11 +96,7 @@ public class Ticket implements Printable {
         this.dateEvent = dateEvent;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setTicketType(TicketType ticketType) {
+    public void setTicketType(models.TicketType ticketType) {
         this.ticketType = ticketType;
     }
 
@@ -169,8 +147,8 @@ public class Ticket implements Printable {
         return true;
     }
 
-    private boolean controlInformationAboutSector(Sector sector) {
-        if (sector != Sector.A & sector != Sector.B & sector != Sector.C) {
+    private boolean controlInformationAboutSector(models.Sector sector) {
+        if (sector != models.Sector.A & sector != models.Sector.B & sector != models.Sector.C) {
             System.out.println("We don't have this sector");
             return false;
         }
