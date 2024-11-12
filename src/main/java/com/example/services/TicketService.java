@@ -10,8 +10,16 @@ import java.time.LocalDateTime;
 @Service
 public class TicketService {
 
+    private TicketRepository ticketRepository;
+
     @Autowired
-    TicketRepository ticketRepository;
+    public TicketService(TicketRepository ticketRepository){
+        this.ticketRepository = ticketRepository;
+    }
+
+    public TicketService() {
+
+    }
 
 
     /*Give information about max weight backpack according event code*/
@@ -48,8 +56,8 @@ public class TicketService {
     }
 
     public Ticket getTicketById(long id){
-        if (ticketRepository.findById(id) != null){
-            return ticketRepository.findById(id);
+        if (ticketRepository.findTicketById(id) != null){
+            return ticketRepository.findTicketById(id);
         } else {
             throw new NullPointerException("No found ticket with id: " + id);
         }

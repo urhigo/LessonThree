@@ -28,7 +28,8 @@ public class SecurityConfiguration {
 
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.anyRequest().authenticated();
+                    authorize.requestMatchers("/ticket/*").authenticated()
+                            .anyRequest().permitAll();
                 }).httpBasic(Customizer.withDefaults());
         return http.build();
     }

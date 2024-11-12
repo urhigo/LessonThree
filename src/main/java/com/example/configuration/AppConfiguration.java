@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfiguration {
 
     @Bean
-    @ConditionalOnProperty(name = "enableThisIsMyFirstConditionalBean", havingValue = "true")
-    public String ThisIsMyFirstConditionalBean() {
-        return "Conditional Bean is enabled!";
+    @ConditionalOnProperty(name = "app.allowConditionalBean", havingValue = "true")
+    public ThisIsMyFirstConditionalBean thisIsMyFirstConditionalBean() {
+        return new ThisIsMyFirstConditionalBean();
     }
 }

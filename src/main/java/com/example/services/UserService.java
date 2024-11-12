@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
 
     public void addUser(User user){
@@ -20,8 +24,8 @@ public class UserService {
 
 
     public User getUserById(long id){
-        if (userRepository.findById(id) != null){
-            return userRepository.findById(id);
+        if (userRepository.findUserById(id) != null){
+            return userRepository.findUserById(id);
         } else {
             throw new NullPointerException("No found ticket with id: " + id);
         }

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.time.LocalDateTime;
 
 
-@SpringBootApplication(scanBasePackages = "com.example")
+@SpringBootApplication
 public class TicketApplication {
 
     public static void main(String[] args) {
