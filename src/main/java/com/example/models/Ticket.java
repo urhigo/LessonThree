@@ -55,6 +55,9 @@ public class Ticket implements Printable {
         }
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public models.TicketType getTicketType() {
         return ticketType;
@@ -86,6 +89,10 @@ public class Ticket implements Printable {
 
     public models.Sector getStadiumSector() {
         return stadiumSector;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setStadiumSector(models.Sector stadiumSector) {
