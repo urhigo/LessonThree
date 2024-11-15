@@ -1,10 +1,10 @@
-package models;
+package com.example.models;
 
 public class Client extends User{
 
-   private final Role role = Role.USER;
+   private final models.Role role = models.Role.USER;
 
-    public Client(String name, Role role) {
+    public Client(String name, models.Role role) {
         super(name, role);
     }
 

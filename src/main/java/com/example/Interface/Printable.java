@@ -1,4 +1,4 @@
-package Interface;
+package com.example.Interface;
 
 public interface Printable {
 

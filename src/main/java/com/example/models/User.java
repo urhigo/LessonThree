@@ -1,26 +1,43 @@
-package models;
+package com.example.models;
 
-import Interface.Printable;
-import services.BaseIdGeneratingEntity;
+import com.example.Interface.Printable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-public class User extends BaseIdGeneratingEntity implements Printable {
+@Entity
+@Table(name = "_user")
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements Printable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
+    @Column
     private String name;
-    private Role role;
+    @Transient
+    private models.Role role;
+    @Column(name = "creation_date")
     private LocalDateTime timeCreationUser = LocalDateTime.now();
 
-    public User() {
-    }
 
-    public User(String name, Role role) {
+
+    public User(String name, models.Role role) {
         this.name = name;
         this.role = role;
     }
 
-    public Role getRole() {
+    public models.Role getRole() {
         return role;
     }
 
@@ -38,7 +55,7 @@ public class User extends BaseIdGeneratingEntity implements Printable {
         this.name = name;
     }
 
-    public void setRole(Role role) {
+    public void setRole(models.Role role) {
         this.role = role;
     }
 

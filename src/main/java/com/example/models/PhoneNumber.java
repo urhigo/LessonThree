@@ -1,6 +1,6 @@
-package models;
+package com.example.models;
 
-import Interface.Printable;
+import com.example.Interface.Printable;
 
 public class PhoneNumber implements Printable {
 
