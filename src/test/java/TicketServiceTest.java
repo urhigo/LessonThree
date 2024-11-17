@@ -4,6 +4,8 @@ import com.example.services.TicketService;
 import models.TicketType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,12 +28,10 @@ public class TicketServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void testMaxWeightAccordingEventCode() {
-        assertEquals(0.000f, ticketService.maxWeightAccordingEventCode((short) 0));
-        assertEquals(3.500f, ticketService.maxWeightAccordingEventCode((short) 100));
-        assertEquals(4.200f, ticketService.maxWeightAccordingEventCode((short) 500));
-        assertEquals(5.300f, ticketService.maxWeightAccordingEventCode((short) 700));
+    @ParameterizedTest
+    @CsvSource({"0, 0.000", "100, 3.500", "500, 4.200", "700, 5.300"})
+    public void testMaxWeightAccordingEventCode(short eventCode, float expectedWeight) {
+        assertEquals(expectedWeight, ticketService.maxWeightAccordingEventCode(eventCode));
     }
 
     @Test
